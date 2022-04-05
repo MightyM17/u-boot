@@ -48,7 +48,6 @@
 			status = "okay";			
 			};
 		};
-	};
 
 	i2c-gpio-5 {
 		compatible = "i2c-gpio";

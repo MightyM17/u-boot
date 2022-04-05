@@ -1,9 +1,12 @@
 // SPDX-License-Identifier: GPL-2.0+
-/*
- * This empty file prevents make linking error.
- * No custom logic for espresso so far.
- *
- *
- */
 
 void nooop(void) {}
+void set_muxconf_regs(void) {}
+struct omap_sysinfo {
+	char *board_string;
+};
+const struct omap_sysinfo sysinfo = {
+	"Board: espresso\n"
+};
+int board_init(void) { return 0; }
+int misc_init_r(void) { return 0; }
