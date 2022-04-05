@@ -1035,7 +1035,7 @@ dtb-$(CONFIG_TARGET_OMAP3_IGEP00X0) += \
 	omap3-igep0020.dtb
 
 dtb-$(CONFIG_TARGET_OMAP4_ESPRESSO) += \
-	omap4-samsung-espresso3g.dtb
+	omap4-samsung-espresso.dtb
 
 dtb-$(CONFIG_TARGET_OMAP4_PANDA) += \
 	omap4-panda.dtb \
