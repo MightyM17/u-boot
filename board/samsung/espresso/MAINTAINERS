@@ -1,0 +1,6 @@
+Samsunng Galaxy Tab 2 Board
+M:	Mighty <mightymb17@gmail.com>
+S:	Maintained
+F:	board/samsung/espresso/
+F:	include/configs/exynos78x0-common.h
+F:	configs/espresso_defconfig

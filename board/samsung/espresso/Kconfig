@@ -1,0 +1,12 @@
+if TARGET_OMAP4_ESPRESSO
+
+config SYS_BOARD
+	default "espresso"
+
+config SYS_VENDOR
+	default "samsung"
+
+config SYS_CONFIG_NAME
+	default "omap4_espresso"
+
+endif

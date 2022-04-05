@@ -37,6 +37,17 @@
 		#address-cells = <1>;
 		#size-cells = <1>;
 		ranges;
+		
+		framebuffer0: framebuffer@bef00000 {
+			compatible = "simple-framebuffer";
+			reg = <0xbef00000 (1024 * 600 * 4)>;
+			width = <1024>;
+			height = <600>;
+			stride = <(4096)>;
+			format = "x8r8g8b8";
+			status = "okay";			
+			};
+		};
 	};
 
 	i2c-gpio-5 {
@@ -537,7 +548,7 @@
 };
 
 &dss {
-	status = "okay";
+	status = "disabled";
 
 	pinctrl-names = "default";
 	pinctrl-0 = <&dss_dpi_pins>;
