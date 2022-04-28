@@ -83,14 +83,103 @@ static inline void _debug_uart_init(void)
 	serial_dout(&com_port->mdr1, 0x0);
 }
 
-static inline void _debug_uart_putc(int ch)
+/*static inline void _debug_uart_putc(int ch)
 {
 	struct ns16550 *com_port = (struct ns16550 *)CONFIG_DEBUG_UART_BASE;
 
 	while (!(serial_din(&com_port->lsr) & UART_LSR_THRE))
 		;
 	serial_dout(&com_port->thr, ch);
+}*/
+
+static struct console_t hax_cons = {.cols = 270, .rows = 150};
+
+static inline void hax_console_newline(void)
+{
+	static hax_pgcnt = 0;
+
+	hax_cons.curr_col = 0;
+	hax_cons.curr_row += 1;
+	if (hax_cons.curr_row > 150) {
+		hax_cons.curr_row = 0;
+		hax_pgcnt ++;
+		hax_lcd_puts(": -- page ");
+		for(int i = 0; i < hax_pgcnt; i++) {
+			hax_lcd_puts(".");
+		}
+		hax_lcd_puts(" --\n");
+	}
 }
+
+static void hax_lcd_putc_xy0(struct console_t *pcons, ushort x, ushort y, char c)
+{
+	int fg_color = 0xFFFFFFFF;
+	int bg_color = 0x00000000;
+	int i, row;
+	int *dst = (int *)(long int)(0x9d400000) +
+				  y * (1080 * 4 /2) +
+				  x;
+
+	for (row = 0; row < VIDEO_FONT_HEIGHT; row++) {
+		uchar bits = video_fontdata[c * VIDEO_FONT_HEIGHT + row];
+		for (i = 0; i < VIDEO_FONT_WIDTH; ++i) {
+			*dst++ = (bits & 0x80) ? fg_color : bg_color;
+			bits <<= 1;
+		}
+		dst += ((1080 * 4 /2) - VIDEO_FONT_WIDTH);
+	}
+}
+
+static inline void hax_console_back(void)
+{
+	if (--hax_cons.curr_col < 0) {
+		hax_cons.curr_col = hax_cons.cols - 1;
+		if (--hax_cons.curr_row < 0)
+			hax_cons.curr_row = 0;
+	}
+
+	hax_lcd_putc_xy0(&hax_cons,
+			hax_cons.curr_col * VIDEO_FONT_WIDTH,
+			hax_cons.curr_row * VIDEO_FONT_HEIGHT, ' ');
+}
+
+static void _debug_uart_putc(char c)
+{
+	switch (c) {
+	case '\r':
+		hax_cons.curr_col = 0;
+		return;
+	case '\n':
+		hax_console_newline();
+
+		return;
+	case '\t':	/* Tab (8 chars alignment) */
+		hax_cons.curr_col +=  8;
+		hax_cons.curr_col &= ~7;
+
+		if (hax_cons.curr_col >= hax_cons.cols)
+			hax_console_newline();
+
+		return;
+	case '\b':
+		hax_console_back();
+
+		return;
+	default:
+		hax_lcd_putc_xy0(&hax_cons,
+				hax_cons.curr_col * VIDEO_FONT_WIDTH,
+				hax_cons.curr_row * VIDEO_FONT_HEIGHT, c);
+		if (++hax_cons.curr_col >= hax_cons.cols)
+			hax_console_newline();
+	}
+}
+
+void hax_lcd_puts(const char *s)
+{
+	while (*s)
+		_debug_uart_putc(*s++);
+}
+
 
 DEBUG_UART_FUNCS
 
