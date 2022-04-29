@@ -14,6 +14,8 @@
 #include <serial.h>
 #include <clk.h>
 #include <linux/err.h>
+#include <video_font.h>
+#include <lcd_console.h>
 
 #ifndef CONFIG_SYS_NS16550_CLK
 #define CONFIG_SYS_NS16550_CLK  0
@@ -116,8 +118,8 @@ static void hax_lcd_putc_xy0(struct console_t *pcons, ushort x, ushort y, char c
 	int fg_color = 0xFFFFFFFF;
 	int bg_color = 0x00000000;
 	int i, row;
-	int *dst = (int *)(long int)(0x9d400000) +
-				  y * (1080 * 4 /2) +
+	int *dst = (int *)(long int)(0xbef00000) +
+				  y * (1024 * 4) +
 				  x;
 
 	for (row = 0; row < VIDEO_FONT_HEIGHT; row++) {
@@ -126,7 +128,7 @@ static void hax_lcd_putc_xy0(struct console_t *pcons, ushort x, ushort y, char c
 			*dst++ = (bits & 0x80) ? fg_color : bg_color;
 			bits <<= 1;
 		}
-		dst += ((1080 * 4 /2) - VIDEO_FONT_WIDTH);
+		dst += ((1024 * 4) - VIDEO_FONT_WIDTH);
 	}
 }
 

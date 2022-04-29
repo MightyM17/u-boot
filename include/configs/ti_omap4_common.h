@@ -81,7 +81,7 @@
 	DEFAULT_LINUX_BOOT_ENV \
 	DEFAULT_MMC_TI_ARGS \
 	DEFAULT_FIT_TI_ARGS \
-	"console=ttyO2,115200n8\0" \
+	"console=tty0\0" \
 	"fdtfile=undefined\0" \
 	"bootpart=0:2\0" \
 	"bootdir=/boot\0" \
@@ -103,6 +103,8 @@
 			"setenv fdtfile omap4-panda-es.dtb; fi;" \
 		"if test $board_name = duovero; then " \
 			"setenv fdtfile omap4-duovero-parlor.dtb; fi;" \
+		"if test $board_name = espresso; then " \
+                        "setenv fdtfile omap4-espresso.dtb; fi;" \
 		"if test $fdtfile = undefined; then " \
 			"echo WARNING: Could not determine device tree to use; fi; \0" \
 	BOOTENV
