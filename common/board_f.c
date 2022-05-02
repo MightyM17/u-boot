@@ -262,6 +262,13 @@ __weak int init_func_vid(void)
 }
 #endif
 
+static int draw_funny_line(void)
+{
+	for (u32 *ptr=0xbef00000, end = ptr+0x12000; ptr < end; *(++ptr) = 0xffdaad35);
+	return 0;
+}
+
+
 static int setup_mon_len(void)
 {
 #if defined(__ARM__) || defined(__MICROBLAZE__)
@@ -955,12 +962,12 @@ static const init_fnc_t init_sequence_f[] = {
 
 void board_init_f(ulong boot_flags)
 {
+	hax_lcd_puts("tesssst\n");
 	gd->flags = boot_flags;
 	gd->have_console = 0;
 
 	if (initcall_run_list(init_sequence_f))
 		hang();
-
 #if !defined(CONFIG_ARM) && !defined(CONFIG_SANDBOX) && \
 		!defined(CONFIG_EFI_APP) && !CONFIG_IS_ENABLED(X86_64) && \
 		!defined(CONFIG_ARC)

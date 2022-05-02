@@ -68,10 +68,8 @@ static inline int serial_in_shift(void *addr, int shift)
 
 static inline void _debug_uart_init(void)
 {
-	struct ns16550 *com_port = (struct ns16550 *)CONFIG_DEBUG_UART_BASE;
+	/*struct ns16550 *com_port = (struct ns16550 *)CONFIG_DEBUG_UART_BASE;
 	int baud_divisor;
-
-	hax_lcd_puts("testtttttt\n");
 
 	baud_divisor = ns16550_calc_divisor(com_port, CONFIG_DEBUG_UART_CLOCK,
 					    CONFIG_BAUDRATE);
@@ -84,7 +82,7 @@ static inline void _debug_uart_init(void)
 	serial_dout(&com_port->dll, baud_divisor & 0xff);
 	serial_dout(&com_port->dlm, (baud_divisor >> 8) & 0xff);
 	serial_dout(&com_port->lcr, UART_LCRVAL);
-	serial_dout(&com_port->mdr1, 0x0);
+	serial_dout(&com_port->mdr1, 0x0);*/
 }
 
 /*static inline void _debug_uart_putc(int ch)
@@ -118,7 +116,7 @@ static inline void hax_console_newline(void)
 static void hax_lcd_putc_xy0(struct console_t *pcons, ushort x, ushort y, char c)
 {
 	int fg_color = 0xFFFFFFFF;
-	int bg_color = 0x00000000;
+	int bg_color = 0xFF0000FF;
 	int i, row;
 	int *dst = (int *)(long int)(0xbef00000) +
 				  y * (1024 * 4) +

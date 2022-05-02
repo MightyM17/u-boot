@@ -110,7 +110,7 @@ ENTRY(_main)
 	bl	board_init_f_init_reserve
 
 #if defined(CONFIG_DEBUG_UART) && CONFIG_IS_ENABLED(SERIAL)
-	bl	debug_uart_init
+	//bl	debug_uart_init
 #endif
 
 #if defined(CONFIG_SPL_BUILD) && defined(CONFIG_SPL_EARLY_BSS)

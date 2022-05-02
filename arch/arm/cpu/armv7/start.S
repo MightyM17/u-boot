@@ -37,13 +37,6 @@
 
 reset:
 	/* Allow the board to save important registers */
-	ldr r8, =0xbef00000
-    ldr r9, =0x12000
-    ldr r10, =0xffdaad35
-    1:
-        str r10, [r8], #4
-        subs r9, r9, #4
-        bne 1b
 	b	save_boot_params
 save_boot_params_ret:
 #ifdef CONFIG_POSITION_INDEPENDENT
@@ -149,7 +142,6 @@ ENTRY(c_runtime_cpu_setup)
 	bx	lr
 
 ENDPROC(c_runtime_cpu_setup)
-
 /*************************************************************************
  *
  * void save_boot_params(u32 r0, u32 r1, u32 r2, u32 r3)
