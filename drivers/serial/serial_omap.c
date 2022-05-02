@@ -71,6 +71,8 @@ static inline void _debug_uart_init(void)
 	struct ns16550 *com_port = (struct ns16550 *)CONFIG_DEBUG_UART_BASE;
 	int baud_divisor;
 
+	hax_lcd_puts("testtttttt\n");
+
 	baud_divisor = ns16550_calc_divisor(com_port, CONFIG_DEBUG_UART_CLOCK,
 					    CONFIG_BAUDRATE);
 	serial_dout(&com_port->ier, CONFIG_SYS_NS16550_IER);

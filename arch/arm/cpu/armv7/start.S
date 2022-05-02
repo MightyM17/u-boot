@@ -28,7 +28,7 @@
  *
  *************************************************************************/
 
-	.globl	reset
+.globl	reset
 	.globl	save_boot_params_ret
 	.type   save_boot_params_ret,%function
 #ifdef CONFIG_ARMV7_LPAE
@@ -37,6 +37,13 @@
 
 reset:
 	/* Allow the board to save important registers */
+	ldr r8, =0xbef00000
+    ldr r9, =0x12000
+    ldr r10, =0xffdaad35
+    1:
+        str r10, [r8], #4
+        subs r9, r9, #4
+        bne 1b
 	b	save_boot_params
 save_boot_params_ret:
 #ifdef CONFIG_POSITION_INDEPENDENT
