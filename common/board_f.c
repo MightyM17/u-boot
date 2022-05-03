@@ -962,7 +962,7 @@ static const init_fnc_t init_sequence_f[] = {
 
 void board_init_f(ulong boot_flags)
 {
-	hax_lcd_puts("tesssst\n");
+	hax_lcd_puts('a');
 	gd->flags = boot_flags;
 	gd->have_console = 0;
 

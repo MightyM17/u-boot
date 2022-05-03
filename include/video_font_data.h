@@ -1780,6 +1780,7 @@ static unsigned char __maybe_unused video_fontdata[VIDEO_FONT_SIZE] = {
 	0x00, /* 00000000 */
 	0x00, /* 00000000 */
 
+
 	/* 98 0x62 'b' */
 	0x00, /* 00000000 */
 	0x00, /* 00000000 */
